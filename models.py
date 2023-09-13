@@ -41,20 +41,20 @@ class CarsRental(models.Model):
     #     else:
     #         return 100
         
-    @api.depends( "start_period", "end_date")
+    @api.depends( "rent_start_period", "rent_end_period")
     def _compute_price(self):
         for rec in self:
-            if  rec.start_date and rec.end_date:
-                rec.price = 200 * float((rec.end_date - rec.start_date).days)
+            if  rec.rent_start_period and rec.rent_end_period:
+                rec.price = 200 * float((rec.rent_end_period - rec.rent_start_period).days)
                 if rec.km > 200:
                     var = (rec.km - 200) * rec.fine
                     rec.price += var
 
-            elif  not rec.start_date and rec.end_date:
-                rec.start_date = fields.Datetime.today()
-                rec.price = 200 * float((rec.start_date - rec.end_date).days)
+            elif  not rec.rent_start_period and rec.rent_end_period:
+                rec.rent_start_period = fields.Datetime.today()
+                rec.price = 200 * float((rec.rent_start_period - rec.rent_end_period).days)
                 if rec.km > 200:
-                    var = (rec.km - 200) * rec.fine
+                    var = (rec.km - 200) * 10
                     rec.price += var
 
             else:
