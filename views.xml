@@ -5,8 +5,10 @@
             <field name="model">cars.rental</field>
             <field name="arch" type="xml">
                 <tree>
-                    <field name="start_date" optional="show"/>
-                    <field name="end_date" optional="show"/>
+                    <field name="name"/>
+                    <field name="address" />
+                    <field name="rent_start_period" optional="show"/>
+                    <field name="rent_end_period" optional="show"/>
                     <field name="price" optional="show"/>
                 </tree>
             </field>
@@ -21,18 +23,17 @@
                     <sheet>
                             
                         <group>
-                            <group>
+                            <group string="CUSTOMER INFO">
                                 
                                 <field name="name"/>
-                                <field name="day_price" widget="monetary"/>
-                                <field name="price" widget="monetary"/>
+                                <field name="address" />
+                                <field name="rent_start_period"/>
+                                <field name="rent_end_period"/>
                             </group>
-                            <group>
-                                <field name="start_date"/>
-                                <field name="end_date"/>
+                            <group string="CARS INFO">
+                                <field name="price" widget="monetary"/>
                                 <field name="currency_id" invisible="1"/>
-                                <field name="fine" widget="monetary"/>
-                                <field name="km"/>
+                                <field name="distance_per_day"/>
 
                             </group>
                         </group>

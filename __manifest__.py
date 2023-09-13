@@ -6,6 +6,7 @@
 
     'description': """  This App Facilitate Tracking Of Rented Cars 
     """,
+    
     'price': 000,
     'currency': 'USD',
     'author': "Abdulla Bashir",
@@ -17,7 +18,7 @@
     'depends': ['base',],
     'data': [
         'ir.model.access.csv',
-        'cars_view.xml',
+        'views.xml',
     ],
     'demo': [],
 }
