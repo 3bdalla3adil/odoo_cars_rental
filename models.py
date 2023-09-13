@@ -20,7 +20,7 @@ class CarsRental(models.Model):
     # name    = fields.Char(string="Name", required=True)
     # address = fields.Char('Address')
 
-    # day_price    = fields.Float(string='Day Price', digits=(16, 0))
+    # 200    = fields.Float(string='Day Price', digits=(16, 0))
     # start_period = fields.Date(string="Start Date", tracking=1)
     # end_period   = fields.Date(string="Received Date", tracking=1)
     currency_id  = fields.Many2one('res.currency',readonly=True, 
@@ -41,18 +41,18 @@ class CarsRental(models.Model):
     #     else:
     #         return 100
         
-    @api.depends("day_price", "start_date", "end_date")
+    @api.depends( "start_period", "end_date")
     def _compute_price(self):
         for rec in self:
-            if rec.day_price and rec.start_date and rec.end_date:
-                rec.price = rec.day_price * float((rec.end_date - rec.start_date).days)
+            if  rec.start_date and rec.end_date:
+                rec.price = 200 * float((rec.end_date - rec.start_date).days)
                 if rec.km > 200:
                     var = (rec.km - 200) * rec.fine
                     rec.price += var
 
-            elif rec.day_price and not rec.start_date and rec.end_date:
+            elif  not rec.start_date and rec.end_date:
                 rec.start_date = fields.Datetime.today()
-                rec.price = rec.day_price * float((rec.start_date - rec.end_date).days)
+                rec.price = 200 * float((rec.start_date - rec.end_date).days)
                 if rec.km > 200:
                     var = (rec.km - 200) * rec.fine
                     rec.price += var
