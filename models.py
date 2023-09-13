@@ -37,7 +37,7 @@ class CarsRental(models.Model):
         if self.distance_per_day > 200:
 
             # Assuming that we our client rent cars for a 100 AED/day and Add 10 AED fine
-            return 100 + ( ( self.distance_per_day - 200 ) * 10 )
+            return 100 + int( ( self.distance_per_day - 200 ) * 10 )
         else:
             return 100
         
