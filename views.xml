@@ -24,10 +24,10 @@
                             
                         <group>
                             <group string="CUSTOMER INFO">
-                                <field name="name"/>
+                                <field name="name"/> 
                                 <field name="address" />
-                                <field name="rent_start_period"/>
-                                <field name="rent_end_period"/>
+                                <field name="rent_start_period" required="1"/>
+                                <field name="rent_end_period" required="1"/>
                             </group>
                             <group string="CARS INFO">
                                 <field name="price" widget="monetary"/>

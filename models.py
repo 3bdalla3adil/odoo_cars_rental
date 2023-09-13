@@ -39,34 +39,24 @@ class CarsRental(models.Model):
             # calculate the extra kilometers as 10 AED Fine 
             extra_km_fine = int(distance_per_day - 200) * 10
             # and add the Fine to the price
-            price += extra_km_fine
+            price = 100 + extra_km_fine
 
     @api.depends( "rent_start_period", "rent_end_period")
     def _compute_price(self):
         
         for record in self:
 
-            # chech if user set starting period and ending period
-            if  record.rent_start_period and record.rent_end_period:
                 # calculate price upon the start date and end date 
                 # assuming the customer is able to rent at any period of time
-                record.price = 100 * int((record.rent_end_period - record.rent_start_period).days)
-                
-                # check if the distance exceeded 200 KM
-                self.check_exceed_distance(record.distance_per_day,record.price)
-
-            elif  not record.rent_start_period and record.rent_end_period:
-                # assuming the starting period and ending period is the time when user saved the record 
-                record.rent_start_period = fields.Datetime.today()
-                # count the deifference between starting and ending date to calculate price over the renting period
-                record.price = 100 * int((record.rent_start_period - record.rent_end_period).days)
-                # check if the distance exceeded the 200 KM
-                self.check_exceed_distance(record.distance_per_day,record.price)
-                
+            record.price = 100 * int((record.rent_end_period - record.rent_start_period).days)
+            
+            # check if the distance exceeded 200 KM
+            self.check_exceed_distance(record.distance_per_day,record.price)
+                            
             # if niether starting nor ending rent period set
-            else:
-                # check if the distance exceeded 200 KM
-                self.check_exceed_distance(record.distance_per_day,record.price)
+            # else:
+            # check if the distance exceeded 200 KM
+            # self.check_exceed_distance(record.distance_per_day,record.price)
 
-                # set price as zero
-                record.price = 100
+            # set price as 100
+            record.price = 100 if record.distance_per_day <= 200 else record.price
