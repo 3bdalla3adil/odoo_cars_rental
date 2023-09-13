@@ -34,7 +34,7 @@ class CarsRental(models.Model):
         # set currency_id field to 'AED' id
         self.currency_id = currency        
 
-    @api.depends("rent_start_period", "rent_end_period")
+    @api.depends("rent_start_period", "rent_end_period","distance_per_day")
     def _compute_price(self):
         
         for record in self:
@@ -42,7 +42,8 @@ class CarsRental(models.Model):
             # calculate price upon the start date and end date 
             # assuming the customer is able to rent at any period of time
             if record.rent_end_period and record.rent_start_period:
-                record.price = 100 * int((record.rent_end_period - record.rent_start_period).days)
+                # calculate 100 price if no date period 
+                record.price = 100 + (100 * float((record.rent_end_period - record.rent_start_period).days))
             
             # check if the distance exceeded 200 KM limit
             if record.distance_per_day > 200:
