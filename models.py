@@ -43,14 +43,14 @@ class CarsRental(models.Model):
             # assuming the customer is able to rent at any period of time
             if record.rent_end_period and record.rent_start_period:
                 # calculate 100 price if no date period 
-                record.price = 100 + (100 * float((record.rent_end_period - record.rent_start_period).days))
+                record.price = 100 + (10 * float((record.rent_end_period - record.rent_start_period).days))
             
-            # check if the distance exceeded 200 KM limit
+            # check if the distance daily exceeded 200 KM limit
             if record.distance_per_day > 200:
                 # calculate the extra kilometers as 10 AED Fine 
                 extra_km_fine = int(record.distance_per_day - 200) * 10
                 # and add the Fine to the price
-                price = 100 + extra_km_fine                
+                price += extra_km_fine                
             else:
                 # set price as 100
                 record.price = 100 
