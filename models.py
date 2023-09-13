@@ -32,14 +32,7 @@ class CarsRental(models.Model):
             currency = self.env['res.currency'].create({'name': 'AED'})
             
         # set currency_id field to 'AED' id
-        self.currency_id = currency
-
-    def check_exceeded_distance(self,distance_per_day,price):
-        if distance_per_day > 200:
-            # calculate the extra kilometers as 10 AED Fine 
-            extra_km_fine = int(distance_per_day - 200) * 10
-            # and add the Fine to the price
-            price = 100 + extra_km_fine
+        self.currency_id = currency        
 
     @api.depends( "rent_start_period", "rent_end_period")
     def _compute_price(self):
@@ -50,13 +43,12 @@ class CarsRental(models.Model):
                 # assuming the customer is able to rent at any period of time
             record.price = 100 * int((record.rent_end_period - record.rent_start_period).days)
             
-            # check if the distance exceeded 200 KM
-            self.check_exceed_distance(record.distance_per_day,record.price)
-                            
-            # if niether starting nor ending rent period set
-            # else:
-            # check if the distance exceeded 200 KM
-            # self.check_exceed_distance(record.distance_per_day,record.price)
-
-            # set price as 100
-            record.price = 100 if record.distance_per_day <= 200 else record.price
+            # check if the distance exceeded 200 KM limit
+            if record.distance_per_day > 200:
+                # calculate the extra kilometers as 10 AED Fine 
+                extra_km_fine = int(record.distance_per_day - 200) * 10
+                # and add the Fine to the price
+                price = 100 + extra_km_fine                
+            else:
+                # set price as 100
+                record.price = 100 
