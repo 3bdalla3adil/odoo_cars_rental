@@ -24,7 +24,6 @@
                             
                         <group>
                             <group string="CUSTOMER INFO">
-                                
                                 <field name="name"/>
                                 <field name="address" />
                                 <field name="rent_start_period"/>
